@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamentos</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light w-100"><h1>EMPRESA</h1>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-lg-2 d-md-block sidebar" style="background: #34716A;">
+                <div class="position-sticky">
+                    <ul class="nav flex-column" style="align-items: center;">
+                        <li class="nav-item" style="color: #f4f4f4;">
+                            <a href="/medicos" style="color: #fff;">Médicos</a>
+                        </li>
+                        <li class="nav-item" style="color: #f4f4f4; margin-top: 250%;">
+                            <a href="/" style="color: #fff;">SAIR</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <img src="background.png" alt="Background Image"/>
+                <button data-bs-toggle="modal" data-bs-target="#infoModal" class="btn novo-paciente-btn" style="background-color: #21655D; color:#f4f4f4; font-size: 1.5rem; z-index: 1;">+ NOVO AGENDAMENTO</button>
+                <div class="card-container">
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <!-- Iterate over clientes to create cards -->
+                        <div class="col card-custom" th:each="agendamento : ${agendamentos}">
+                            <div class="card border-0 rounded-5" style="background: #f4f4f4; justify-content: space-around;">
+                                <div class="headerCard rounded-top-5">
+                                    <h2 class="cliente" th:text="${agendamento.Id_medico.nome}"></h2>
+                                </div>
+                                <div class="card-body" style="justify-content: center; align-items: center;">
+                                    <h3 class="card-title">Dia Agendado:</h3>
+                                    <p class="card-text" th:date="${agendamento.data_consulta}"></p>
+                                    <h3 class="card-title">Nome:</h3>
+                                    <p class="card-text" th:text="${agendamento.cliente.nome}"></p>
+                                    <h3 class="card-title">Telefone:</h3>
+                                    <p class="card-text" th:text="${agendamento.cliente.telefone}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Repeat these card divs -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 30px">
+                <div class="modal-header" style="background-color: #21655D; color: #f4f4f4; border-radius: 25px 25px 0px 0px; align-items: center; justify-content: center;">
+                    <h3 class="modal-title" id="infoModalLabel">INFORMAÇÕES</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="infoForm" action="/agendar" method="post">
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome do paciente:</label>
+                            <input type="text" class="form-control" id="nome" name="nome">
+                        </div>
+                        <select class="form-select" aria-label="Default select example" name="idmedico">
+                            <option selected>Nome do Médico</option>
+                            <option th:each ="medico: ${medicos}" th:value="${medico.id}" th:text = "${medico.nome}"></option>
+                          </select>
+                        <div class="mb-3">
+                            <label for="cpf" class="form-label">Cpf:</label>
+                            <input type="text" class="form-control" id="cpf" name="cpf">
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefone" class="form-label">Número De Celular:</label>
+                            <input type="text" class="form-control" id="telefone" name="telefone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="motivo" class="form-label">Motivo Da Consulta:</label>
+                            <textarea class="form-control" id="motivo" name="motivo" maxlength="50"></textarea>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-4">
+                                <label for="horario" class="form-label">Horário:</label>
+                                <input type="time" class="form-control" id="horario" name="horario">
+                            </div>
+                            <div class="col-4">
+                                <label for="data" class="form-label">Data:</label>
+                                <input type="date" class="form-control" id="data" name="data">
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="align-items: center; justify-content: center;">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #414141; color:#f4f4f4; font-size: 1.5rem;">FECHAR</button>
+                            <button type="submit" id ="salvar" class="btn btn-primary" form="infoForm" style="background-color: #21655D; color:#f4f4f4; font-size: 1.5rem;" data-bs-dismiss="modal">SALVAR</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+</body>
+

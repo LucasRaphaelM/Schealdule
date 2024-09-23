@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScheaduleTh</title>
+    <link rel="stylesheet" th:href="styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    
+        <div class="container" id="container">
+
+           <div class="image-bg">
+            <img src="fundo.png" alt="Imagem-fundo-login" class="fundo">
+           </div>
+
+            <div class="form-container sign-in">
+                <form action="/logar" method="post">
+                    <h1 class="sign-in-your-account">Entre na sua conta</h1>
+                    <span class="data">Insira seus dados</span>
+                    <input type="email" name="email_adm" placeholder="Email">
+                    <input type="password" name="senha_adm" placeholder="Passoword">
+                    
+                    <div th:if="${erro != null}"th:text="${erro}"></div>
+                    
+                    <a href="#">Esqueceu sua senha?</a>
+                        <button id="test" type="submit">Entrar</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+
+                    <div class="toggle-panel toggle-left">
+                        <img src="logo.png" alt="Imagem-Bem-vindo" class="welcome-image">
+                        <h1>Bem-vindo de volta!</h1>
+                        <p>acesse sua conta agora mesmo</p>
+                        <button class="hidden" id="login">Entrar</button>
+                    </div>
+
+                <!--    <div class="toggle-panel toggle-right">
+                        <img src="logo.png" alt="Imagem-Bem-vindo" class="welcome-image">
+                        <h1>Bem-vindo!</h1>
+                        <p>Crie sua conta agora mesmo</p>
+                        <button class="hidden" id="register">Cadastrar</button>
+                    </div>
+                -->
+                </div>
+            </div>
+        </div>
+
+        <script th:src="scripts.js"></script>
+</body>
+</html>

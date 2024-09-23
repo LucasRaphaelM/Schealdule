@@ -1,0 +1,24 @@
+.navbar {
+    background: #21655D;
+    height: 120px;
+}
+
+nav h2 {
+    color: white;
+    margin-left: 32%;
+    font-size: 50PX;
+}
+.novo-paciente-btn {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    padding: 20px 40px; /* Increase padding for bigger size */
+    color: white;
+    font-size: 1.5rem; /* Increase font size */
+    border: none;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px #868686,
+                -5px -5px 10px #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
